@@ -7,9 +7,15 @@ const request  = require('request'),
 
         if (!error) {
             var $ = cheerio.load(body);
-            var array = {
-                1 : [ "",  "", ""]
-            }, 
+            var mainArray = [
+                {
+                    "id" : 1,
+                    "title" : "",
+                    "text" : "",
+                    "img" : ""
+                }
+                
+            ], 
             
             s_string = '';
 //Записываем заголовки новостей
@@ -32,18 +38,20 @@ const request  = require('request'),
                 let image = $(this).attr('src')
                 imageArr.push(image)
             })
-            console.log(imageArr)
+//            console.log(imageArr)
 
+//Записываем в один объект
 
-//            let k = 1;            
-//            $(".left-feed-title").each(function(){
-//                s_string = $(this).text();
-//                array.push(s_string.trim());
-//                array[k] = s_string.trim();                
-//                k++;
-//            });
-//            console.log((array));            
-            
+            for (let i = 1; i < titles.length; i++) {
+                let addRow = {
+                    id: i, title: titles[i], text: texts[i], img: imageArr[i]
+                }
+                mainArray.push(addRow)
+            }
+
+//            console.log(mainArray);            
+            console.log(JSON.stringify(mainArray));            
+
         } else {
             console.log("Произошла ошибка: " + error);
         }
