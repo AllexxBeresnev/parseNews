@@ -7,13 +7,42 @@ const request  = require('request'),
 
         if (!error) {
             var $ = cheerio.load(body);
-            var array = [], s_string = '';
+            var array = {
+                1 : [ "",  "", ""]
+            }, 
+            
+            s_string = '';
+//Записываем заголовки новостей
+            let titles = [];
             $(".left-feed-title").each(function(){
-//                s_string += $(this).find('b').first().text();
                 s_string = $(this).text();
-                array.push(s_string.trim());
+                titles.push(s_string.trim());                
             });
-            console.log((array));            
+//            console.log((titles));            
+//Записываем короткий текст новостей
+            let texts = [];
+            $(".left-feed-anons").each(function(){
+                s_string = $(this).text();
+                texts.push(s_string.trim());                
+            });
+//            console.log((texts));            
+//Записываем ссылку на кртинку
+            let imageArr = []
+            $('.news-img').each(function() {
+                let image = $(this).attr('src')
+                imageArr.push(image)
+            })
+            console.log(imageArr)
+
+
+//            let k = 1;            
+//            $(".left-feed-title").each(function(){
+//                s_string = $(this).text();
+//                array.push(s_string.trim());
+//                array[k] = s_string.trim();                
+//                k++;
+//            });
+//            console.log((array));            
             
         } else {
             console.log("Произошла ошибка: " + error);
